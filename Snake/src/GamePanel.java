@@ -14,7 +14,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	static final int GAME_UNITS = (SCREEN_WIDTH*SCREEN_HEIGHT)/ UNITS_SIZE;
 	final int[] x = new int[GAME_UNITS];
 	final int[] y = new int[GAME_UNITS];
-	int gameSpeed = 200;
+	int gameSpeed = 190;
 	int bodySize = 6;
 	int applesEaten;
 	int appleCordX;
@@ -36,7 +36,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	public void startGame() {
 		newToken();
 		running = true;
-		timer = new Timer(gameSpeed, this);
+		timer = new Timer(200, this);
 		timer.start();
 	}
 
@@ -52,7 +52,7 @@ public class GamePanel extends JPanel implements ActionListener {
 				g.drawLine(i * UNITS_SIZE, 0, i * UNITS_SIZE, SCREEN_HEIGHT);
 				g.drawLine(0, i * UNITS_SIZE, SCREEN_WIDTH, i * UNITS_SIZE);
 			}
-			//Token color
+			//Apple color
 			g.setColor(Color.RED);
 			g.fillOval(appleCordX, appleCordY, UNITS_SIZE, UNITS_SIZE);
 
@@ -66,7 +66,7 @@ public class GamePanel extends JPanel implements ActionListener {
 				else {
 					g.setColor(new Color(0, 102, 0));
 				}
-				g.fillOval(x[i], y[i], UNITS_SIZE, UNITS_SIZE);
+				g.fillOval(x[i], y[i], UNITS_SIZE+2, UNITS_SIZE+2);
 			}
 			g.setColor(Color.RED);
 			g.setFont(new Font("Ink Free", Font.BOLD, 30));
@@ -102,7 +102,10 @@ public class GamePanel extends JPanel implements ActionListener {
 		if((x[0]) == appleCordX && (y[0] == appleCordY)) {
 			bodySize++;
 			applesEaten++;
-			if (gameSpeed > 40) gameSpeed = gameSpeed - 10;
+			if (timer.getDelay() > 40) {
+				timer.setDelay(gameSpeed-10);
+				gameSpeed -= 10;
+			}
 			newToken();
 		}
 
